@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso Exclusivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0e0e0e, #1a1a1a);
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      font-size: 18px; /* Increased base font size */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add shadow to all text */
+    }
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('background.jpg') center/cover no-repeat;
+      opacity: 0.1;
+      z-index: -1;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes borderPulse {
+      0%, 100% {
+        border-color: #28a745;
+      }
+      50% {
+        border-color: #1e7e34;
+      }
+    }
+    @keyframes metallicShine {
+      0% {
+        background-position: -200%;
+      }
+      100% {
+        background-position: 200%;
+      }
+    }
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500;
+      }
+      to {
+        text-shadow: 0 0 20px #FFA500, 0 0 30px #FFD700;
+      }
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    @keyframes enhancedBounce {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-10px) rotate(-3deg);
+      }
+      50% {
+        transform: translateY(0) rotate(3deg);
+      }
+      75% {
+        transform: translateY(-5px) rotate(-1.5deg);
+      }
+    }
+    @keyframes sideToSide {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(10px);
+      }
+    }
+    .logo {
+      width: 260px; /* Slightly increased size */
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-out;
+    }
+    .highlight {
+      font-size: 2em; /* Increased text size */
+      color: #FFD700;
+      font-weight: 700;
+      margin: 10px 0;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8); /* Stronger shadow for emphasis */
+      animation: fadeIn 1.2s ease-out, glow 1.5s ease-in-out infinite alternate; /* Add glow animation */
+    }
+    .text {
+      font-size: 1.2em; /* Increased text size */
+      max-width: 90%;
+      margin: 10px auto 20px;
+      line-height: 1.6; /* Adjusted line spacing */
+      font-weight: 500; /* Medium weight for emphasis */
+      color: white; /* Changed to white */
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6); /* Subtle shadow for visibility */
+      animation: fadeIn 1.4s ease-out;
+    }
+    .whatsapp-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #28a745, #1e7e34, #28a745);
+      background-size: 400% 400%; /* For metallic shine effect */
+      color: white;
+      padding: 16px 40px; /* Increased padding for size */
+      font-size: 1.6em; /* Larger button text */
+      font-weight: bold;
+      border-radius: 40px;
+      text-decoration: none;
+      gap: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+      animation: fadeIn 1.6s ease-out, borderPulse 2s infinite, metallicShine 3s linear infinite, sideToSide 2s infinite; /* Side-to-side movement */
+      border: 3px solid #28a745; /* Add border */
+    }
+    .whatsapp-button:hover {
+      transform: scale(1.05);
+    }
+    .whatsapp-button img {
+      width: 50px; /* Increased size */
+      height: 50px;
+    }
+    .footer {
+      margin-top: 15px;
+      font-size: 1em; /* Slightly larger footer text */
+      color: #ccc;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Consistent shadow for footer */
+    }
+    @media (max-width: 480px) {
+      .highlight {
+        font-size: 1.8em; /* Adjusted for smaller screens */
+      }
+      .text {
+        font-size: 1.1em; /* Adjusted for readability */
+      }
+      .whatsapp-button {
+        font-size: 1.4em; /* Adjusted button text size */
+        padding: 14px 36px; /* Adjusted padding */
+      }
+      .logo {
+        width: 200px; /* Adjusted for smaller screens */
+      }
+    }
+    .toast {
+      position: fixed;
+      top: 10px; /* Position at the top */
+      left: 50%; /* Center horizontally */
+      transform: translateX(-50%); /* Adjust for centering */
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      font-size: 0.9em;
+      display: none; /* Hidden by default */
+      z-index: 1000; /* Ensure it appears above other elements */
+      animation: fadeInOut 6s ease forwards;
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      10%, 90% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .toast {
+        top: 5px;
+        font-size: 0.8em;
+        padding: 10px 15px;
+      }
+    }
+  </style>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '978761667721421');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=978761667721421&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+<body>
+  <div class="toast" id="toast">
+    💸 Retiros sin límites, en el acto y con financiera propia.
+  </div>
+  <div class="background"></div>
+  <img src="logo_principal.png" alt="Logo principal de la plataforma" class="logo">
+  <h1 class="highlight">
+    BONO DEL 25% <br> EN TU PRIMER DEPOSITO
+  </h1>
+  <div style="margin: 15px 0; animation: fadeIn 1.3s ease-out;">
+  </div>
+  <h2 class="text">
+    Apreta en el boton de abajo
+  </h2>
+  <a href="wa.link/la6tug"
+     class="whatsapp-button" target="_blank" onclick="trackWhatsAppClick()">
+    <img src="whatsapp_logo.png" alt="Logo de WhatsApp para acceder" />
+    <span>WhatsApp</span>
+  </a>
+  <div style="margin-top: 20px; display: flex; align-items: center; gap: 8px; animation: fadeIn 1.8s ease-out;">
+    <img src="verified-wpp.png" alt="Verificado por WhatsApp" style="width: 20px; height: 20px;"> <!-- Smaller size -->
+    <span style="font-size: 0.9em; font-weight: bold; color: rgba(255, 255, 255, 0.7); text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); font-style: italic; letter-spacing: 1px;">
+      Verificado por WhatsApp
+    </span>
+  </div>
+  <p style="margin-top: 10px; font-size: 0.9em; color: rgba(255, 255, 255, 0.8); text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);">
+    📱 Soporte personalizado por WhatsApp 24/7
+  </p>
+  <footer class="footer"></footer>
+  <script>
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000); // Hide after 4 seconds
+    }
+
+    window.addEventListener('load', () => {
+      showToast(); // Show the toast on page load
+      setInterval(showToast, 5000); // Show the toast every 5 seconds
+    });
+
+    function trackWhatsAppClick() {
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead');
+      }
+    }
+  </script>
+</body>
+</html>
